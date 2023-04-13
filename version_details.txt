@@ -1,0 +1,29 @@
+# Changes/Updates
+
+V 1.1 (13-April-2023)
+
+File name --> server_config_json.json
+1. Created a new file server_config_json to hold the all database details
+2. Added mariadb place holder
+
+File name --> table_config.json
+1. Added templates to store info of read and write tables individually
+
+File name --> read_config.py
+1. Added functionality to read the server_config_json and table_config.json 
+2. Added functionality to merge the json into a single dict 
+
+File name --> main.py
+1. Initialised new vars in main.py for read and write configs
+2. Edited the read_config.py to read the config json from server_config_json.json
+
+File name --> DataMigration_Utility.py
+1. Renamed PushTablesToPostgres.py to DataMigration_Utility.py and edited its dependencies
+2. Introduced two extra params to the utility DataMigration_Utility to accomodate read and write DB info
+3. Added functionality to read and write individually to different DBs
+
+
+# To do
+
+# Validate and complete the utility PushTablesToPostgres
+# Change the 

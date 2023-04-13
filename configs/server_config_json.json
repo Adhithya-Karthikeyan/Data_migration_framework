@@ -1,0 +1,22 @@
+{
+    "postgres":
+                {
+                    "server_name":"postgres",
+                    "username":"postgres",
+                    "password":"Godspeed.123",
+                    "url":"jdbc:postgresql://localhost:5432/",
+                    "driver":"org.postgresql.Driver",
+                    "jar_file_path":"/Users/adhithya/test_projects/jar_files/postgresql-42.5.1.jar"
+                },
+
+    "mariadb":
+                {
+                    "server_name":"mariadb",
+                    "username":"",
+                    "password":"",
+                    "url":"",
+                    "driver":"",
+                    "jar_file_path":""
+                }
+
+}
