@@ -10,12 +10,14 @@ File name --> table_config.json
 1. Added templates to store info of read and write tables individually
 
 File name --> read_config.py
-1. Added functionality to read the server_config_json and table_config.json 
-2. Added functionality to merge the json into a single dict 
+1. Edited the read_config.py to read the config json from server_config_json.json
+2. Added functionality to read the server_config_json and table_config.json 
+3. Added functionality to merge the json into a single dict
+
 
 File name --> main.py
 1. Initialised new vars in main.py for read and write configs
-2. Edited the read_config.py to read the config json from server_config_json.json
+
 
 File name --> DataMigration_Utility.py
 1. Renamed PushTablesToPostgres.py to DataMigration_Utility.py and edited its dependencies
@@ -25,5 +27,8 @@ File name --> DataMigration_Utility.py
 
 # To do
 
-# Validate and complete the utility PushTablesToPostgres
-# Change the 
+1. Complete the main.py code by adding read and write functionalities when calling the DataMigration_Utility utility
+2. Include params to capture write DB details
+3. Edit the table_config.json to add more table names in the single file 
+    or add functionality to maintain seperate json_configs for individual tables
+4. Validate the read_config.py file

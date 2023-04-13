@@ -26,17 +26,18 @@ class main:
                     "write":self.write_creds
                 }
 
-        self.postgres_table_details = {
-                                    "table_name":"titanic_gender_submission", \
-                                    "database_name":"sample_datasets"
+        self.r_table_details = {
+                                    "table_name": self.config_json["r_table"], \
+                                    "database_name": self.config_json["r_database"]
                                 }
+        self.read_db_server = self.config_json['read_db_server']
 
     def process(self):
         
         DataMigration_Utility(
                                 self.creds, \
-                                self.postgres_table_details, \
-                                "local",\
+                                self.r_table_details, \
+                                self.read_db_server,\
                                 "titanic_gender_submission.csv", \
                                 "/Users/adhithya/Documents/test_data/datasets/titanic/"
                 )
