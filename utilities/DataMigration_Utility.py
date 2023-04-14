@@ -7,11 +7,12 @@ spark = SparkSession.builder.\
         getOrCreate()
 
 
-class PushTablesToPostgres:
+class DataMigration_Utility:
     
     def __init__(self, creds, postgres_table_details, read_mode = None, csv_file = None, local_path = None):
-        self.user = creds['user']
-        self.password = creds['password']
+        self.read_creds = creds['read']
+        self.write_creds = creds['write']
+
         self.postgres_table_details = postgres_table_details
         self.local_path = local_path
         self.csv_file = csv_file
@@ -33,22 +34,44 @@ class PushTablesToPostgres:
         self.write_to_postgres(df)
             
     def initialise_vars(self):
-        
-        self.table_name = self.postgres_table_details['table_name']
-        database_name = self.postgres_table_details['database_name']
-        self.url = "jdbc:postgresql://localhost:5432/{database_name}".format(database_name = database_name)
 
         
+        # Fetching the database and table detauls
+        self.table_name = self.postgres_table_details['table_name']
+        database_name = self.postgres_table_details['database_name']
+
+        # Fetching the creds to read from the DB
+        self.r_username = self.read_creds['username']
+        self.r_password = self.read_creds['password']
+        self.r_url = self.read_creds['url']
+        self.r_driver = self.read_creds['driver']
+        self.r_jar_path = self.read_creds['jar_file_path']
+        self.r_url = "{r_url}{database_name}".format(
+                                                    r_url = self.r_url, \
+                                                    database_name = database_name
+                                                )
+
+        # Fetching the creds to write to the DB
+        self.w_username = self.read_creds['username']
+        self.w_password = self.read_creds['password']
+        self.w_url = self.read_creds['url']
+        self.w_driver = self.read_creds['driver']
+        self.w_jar_path = self.read_creds['jar_file_path']
+        self.w_url = "{w_url}{database_name}".format(
+                                                    r_url = self.w_url, \
+                                                    database_name = database_name
+                                                )
+
     def read_from_postgres(self):
-        print("#### Reading tables from Postgres ####")
+        print("#### Reading tables from the DB ####")
         try:
             df = spark.read\
                         .format('jdbc')\
-                        .options(url = self.url,\
+                        .options(url = self.r_url,\
                                 dbtable =self.table_name,\
-                                user = self.user,\
-                                password = self.password,\
-                                driver = "org.postgresql.Driver")\
+                                user = self.r_user,\
+                                password = self.r_password,\
+                                driver = self.r_driver)\
                         .load()
             print("#### Status --> Success ####")
             return df
@@ -70,17 +93,17 @@ class PushTablesToPostgres:
             
             
     def write_to_postgres(self, df):
-        print("#### Writing to Postgres ####")
+        print("#### Writing the table to DB ####")
         
         try:
             
             df.write.format('jdbc').\
                     options(
-                                url = self.url,
-                                driver = "org.postgresql.Driver",\
+                                url = self.w_url,
+                                driver = w_driver,\
                                 dbtable = self.table_name,\
-                                user = self.user,\
-                                password = self.password
+                                user = self.w_user,\
+                                password = self.w_password
                            ).\
                     mode("overwrite").\
                     save()

@@ -1,0 +1,11 @@
+{
+
+    "r_database":"sample_datasets",
+    "r_table":"titanic_gender_submission",
+    "r_db_server":"postgres",
+
+    "w_database":"sample_datasets",
+    "w_table":"titanic_gender_submission",
+    "w_db_server":"postgres"
+
+}
