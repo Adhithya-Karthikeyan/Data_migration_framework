@@ -37,8 +37,11 @@ class DataMigration_Utility:
 
         
         # Fetching the database and table detauls
-        self.table_name = self.postgres_table_details['table_name']
-        database_name = self.postgres_table_details['database_name']
+        self.r_table_name = self.postgres_table_details['r_table']
+        self.w_table_name = self.postgres_table_details['w_table']
+
+        r_database_name = self.postgres_table_details['r_database']
+        w_database_name = self.postgres_table_details-['w_database']
 
         # Fetching the creds to read from the DB
         self.r_username = self.read_creds['username']
@@ -48,7 +51,7 @@ class DataMigration_Utility:
         self.r_jar_path = self.read_creds['jar_file_path']
         self.r_url = "{r_url}{database_name}".format(
                                                     r_url = self.r_url, \
-                                                    database_name = database_name
+                                                    database_name = r_database_name
                                                 )
 
         # Fetching the creds to write to the DB
@@ -59,7 +62,7 @@ class DataMigration_Utility:
         self.w_jar_path = self.read_creds['jar_file_path']
         self.w_url = "{w_url}{database_name}".format(
                                                     r_url = self.w_url, \
-                                                    database_name = database_name
+                                                    database_name = w_database_name
                                                 )
 
     def read_from_postgres(self):
@@ -68,7 +71,7 @@ class DataMigration_Utility:
             df = spark.read\
                         .format('jdbc')\
                         .options(url = self.r_url,\
-                                dbtable =self.table_name,\
+                                dbtable =self.r_table_name,\
                                 user = self.r_user,\
                                 password = self.r_password,\
                                 driver = self.r_driver)\
@@ -100,8 +103,8 @@ class DataMigration_Utility:
             df.write.format('jdbc').\
                     options(
                                 url = self.w_url,
-                                driver = w_driver,\
-                                dbtable = self.table_name,\
+                                driver = self.w_driver,\
+                                dbtable = self.w_table_name,\
                                 user = self.w_user,\
                                 password = self.w_password
                            ).\

@@ -4,21 +4,22 @@ from utilities.read_config import read_config
 
 class main:
 
-    def __init__(self, read_source, write_destination):
+    def __init__(self, table_name, read_source, write_destination):
+        self.table_name = table_name
         self.pre_process()
         self.initialise_vars()
         self.process()
 
     def pre_process(self):
         try:
-            self.config_json = read_config().config_json()
+            self.config_json = read_config(self.table_name).config_json
         except Exception as e:
             print("#### Error reading server config json info ####")
             raise e
 
     def initialise_vars(self):
-        self.read_creds = self.config_json[read_source]
-        self.write_creds = self.config_json[write_destination]
+        self.read_creds = self.config_json["read_source"]
+        self.write_creds = self.config_json["write_destination"]
 
 
         self.creds = {
@@ -42,4 +43,4 @@ class main:
                                 "/Users/adhithya/Documents/test_data/datasets/titanic/"
                 )
 
-main("postgres","postgres")
+main("titanic_gender_submission","postgres","postgres") 
